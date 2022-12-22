@@ -1,7 +1,9 @@
 const path = {
-    PUCLIC: '/*',
+    PUCLIC: '/',
     HOME: '',
-    LOGIN : 'login'
+    LOGIN: 'login',
+    START : '*'
+
 }
 
 export default path;

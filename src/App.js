@@ -5,14 +5,15 @@ import { ToastContainer } from 'react-toastify'
 import path from './utils/path'
 
 function App() {
-
   return (
     <>
       <div className=''>
         <Routes>
           <Route path={path.PUCLIC} element={<Public />}>
             <Route path={path.HOME} element={ <Home/>} />
-            <Route path={path.LOGIN} element={ <Login/>} />
+            <Route path={path.LOGIN} element={<Login />} />
+            
+            <Route path={path.START} element={ <Home/>} />
           </Route>
         </Routes>
       </div>
