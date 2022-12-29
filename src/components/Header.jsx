@@ -16,7 +16,9 @@ const Header = () => {
           <Search/>
         </div>
       </div>
-      <div>dang nhap</div>
+      <div>
+        <h1>dang nhap</h1>
+      </div>
     </div>
   )
 }

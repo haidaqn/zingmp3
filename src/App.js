@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Home, Login, Public } from './containers/public/index';
 import { ToastContainer } from 'react-toastify'
+import { useDispatch } from 'react-redux';
+import * as actions from './store/actions';
 import path from './utils/path'
 
 function App() {
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actions.getHome());
+  });
+
   return (
     <>
       <div className=''>
         <Routes>
-          <Route path={path.PUCLIC} element={<Public />}>
+          <Route path={path.PUBLIC} element={<Public />}>
             <Route path={path.HOME} element={ <Home/>} />
             <Route path={path.LOGIN} element={<Login />} />
-            
             <Route path={path.START} element={ <Home/>} />
           </Route>
         </Routes>

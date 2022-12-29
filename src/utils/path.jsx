@@ -1,5 +1,5 @@
 const path = {
-    PUCLIC: '/',
+    PUBLIC: '/',
     HOME: '',
     LOGIN: 'login',
     START : '*'
