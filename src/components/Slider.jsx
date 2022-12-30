@@ -20,14 +20,12 @@ const Slider = () => {
                 sliderEls[i]?.classList?.remove('animate-slide-left', 'order-first', 'z-10')
                 sliderEls[i]?.classList?.remove('animate-slide-left2', 'order-2', 'z-10')
 
-                // Hide or Show images
                 if (list.some(item => item === i)) {
                     sliderEls[i].style.cssText = `display: block`
                 } else {
                     sliderEls[i].style.cssText = `display: none`
                 }
             }
-            // Add animation by adding classnames
             list.forEach(item => {
                 if (item === max) {
                     sliderEls[item]?.classList?.add('animate-slide-right', 'order-last', 'z-20')
