@@ -7,7 +7,6 @@ const initState = {
 const apptReducer = (state = initState , action) => {
     switch (action.type) {
         case actionType.GET_HOME:
-            console.log(action)
             return {
                 ...state,
                 banner: action.homeData?.find(item => item.sectionType === "banner")?.items || null,

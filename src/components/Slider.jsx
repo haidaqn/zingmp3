@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getArrSlider } from '../utils/fn';
+import * as actions from '../store/actions';
+import { useNavigate } from 'react-router-dom';
 
 const Slider = () => {
 
-  const { banner } = useSelector(state => state.app);
-  
-  console.log(banner);
+    const navigate = useNavigate();
+    const { banner } = useSelector(state => state.app);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
         const sliderEls = document.getElementsByClassName('slider-item')
         let min = 0
         let max = 2
@@ -41,7 +43,19 @@ const Slider = () => {
         return () => {
             intervalId && clearInterval(intervalId)
         }
-    }, [])
+    }, []);
+
+    const handleClickBanner = (item) => {
+        if (item?.type === 1) { // bài nhạc
+            dispatch(actions.setCurSongId(item?.encodeId));
+            dispatch(actions.play(true));
+        }
+        else if (item?.type === 4) { // album
+            const albumPath = item?.link.split('.')[0];
+            console.log(albumPath)
+            navigate(albumPath)
+        }   
+    };
 
   return (
     <div className='w-full overflow-hidden px-[59px]'>
@@ -50,6 +64,7 @@ const Slider = () => {
                     <img
                         key={item.encodeId}
                         src={item.banner}
+                        onClick={() => handleClickBanner(item)}
                         className={`slider-item flex-1 object-contain w-[30%] rounded-lg ${index <= 2 ? 'block' : 'hidden'}`}
                     />
                 ))}

@@ -2,8 +2,8 @@ const path = {
     PUBLIC: '/',
     HOME: '',
     LOGIN: 'login',
-    START : '*'
-
+    START : '*',
+    ALBUM__TITLE__PID : 'album/:title/:pid'
 }
 
 export default path;
