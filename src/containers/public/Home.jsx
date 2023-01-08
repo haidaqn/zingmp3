@@ -5,7 +5,6 @@ const Home = () => {
   
   return (
     <div className='overflow-y-auto'>
-      
         <Slider />
     </div>
   )

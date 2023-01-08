@@ -7,24 +7,19 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const Album = () => {
 
-    /* var today = new Date();
-    var time = (today.getDay() + 1) + "/" + (today.getMonth() + 1) + "/" + today.getFullYear(); */
-
-    const { title, pid } = useParams();
+    const { pid } = useParams();
     const [playListData, setPLayListData] = useState({});
 
     useEffect(() => {
         const fetchDetailPlaylist = async () => {
             const response = await apis.apiGetDeTailPlayList(pid)
             if (response?.data.err === 0) {
-                console.log(response.data?.data)
                 setPLayListData(response.data?.data);
             }
             else {
-                console.log("Lỗi")
+                console.log("Lỗi ở fetchDetailPlaylist Album ")
             }
         }
-
         fetchDetailPlaylist()
     }, [pid])
 

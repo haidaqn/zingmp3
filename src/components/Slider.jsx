@@ -50,11 +50,18 @@ const Slider = () => {
             dispatch(actions.setCurSongId(item?.encodeId));
             dispatch(actions.play(true));
         }
-        else if (item?.type === 4) { // album
+        if (item?.type === 4) { // album
             const albumPath = item?.link.split('.')[0];
-            console.log(albumPath)
-            navigate(albumPath)
+            if (albumPath.includes('album')) {
+                navigate(albumPath);
+            }
+            else {
+                const newAlbumPath = 'album' + albumPath;
+                navigate(newAlbumPath);
+                console.log(newAlbumPath);
+            }
         }   
+        console.log(item);
     };
 
   return (
@@ -65,7 +72,7 @@ const Slider = () => {
                         key={item.encodeId}
                         src={item.banner}
                         onClick={() => handleClickBanner(item)}
-                        className={`slider-item flex-1 object-contain w-[30%] rounded-lg ${index <= 2 ? 'block' : 'hidden'}`}
+                        className={`slider-item flex-1 object-contain w-[30%] rounded-lg cursor-pointer ${index <= 2 ? 'block' : 'hidden'}`}
                     />
                 ))}
             </div>
