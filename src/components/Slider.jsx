@@ -56,12 +56,13 @@ const Slider = () => {
                 navigate(albumPath);
             }
             else {
-                const newAlbumPath = 'album' + albumPath;
+                const splitPath = albumPath.split('/');
+                console.log(splitPath);
+                const newAlbumPath = 'album/' + splitPath[2] + '/' + splitPath[3];
                 navigate(newAlbumPath);
                 console.log(newAlbumPath);
             }
         }   
-        console.log(item);
     };
 
   return (

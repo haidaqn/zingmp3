@@ -13,8 +13,8 @@ const Player = () => {
   const [heart, setHeart] = useState(true);
   // const [audio, setAudio] = useState(new Audio());
   const audio = useRef(new Audio());
-  const [source, setSource] = useState(null);
-  const [songInfo, setSongInfo] = useState(null);
+  const [source, setSource] = useState('');
+  const [songInfo, setSongInfo] = useState('');
 
   useEffect(() => {
     const fetchDetailSong = async () => {
@@ -22,14 +22,16 @@ const Player = () => {
         apis.getDetailSong(currentSongId),
         apis.getMusic(currentSongId)
       ])
-      if (res1.data.err === 0) {
+      if (res1?.data?.err === 0) {
         setSongInfo(res1?.data?.data);
       }
-      if (res2.data.err === 0) {
+      if (res2?.data?.err === 0) {
         // setAudio(new Audio(res2.data.data['128']));
-        setSource(res2?.data.data['128']);
+        setSource(res2?.data?.data['128']);
       }
-      
+      /* if (res2?.data?.err === -1110) {
+        setSource(res2?.data.data['128']);
+      } */
     }
     fetchDetailSong();
   }, [currentSongId])
@@ -40,9 +42,10 @@ const Player = () => {
   
   useEffect(() => {
     audio.current.src = source;
-    if (isPlaying) 
+    if (isPlaying === true) {
       audio.current.play();
-  },[audio, isPlaying, source]);
+    }
+  },[audio, source]);
 
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
