@@ -1,20 +1,24 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector , useDispatch} from 'react-redux';
 import * as apis from '../apis';
 import icons from '../utils/icon';
 import * as actions from '../store/actions';
+import moment from 'moment';
+
+var intervalId
 
 const Player = () => {
 
-  const dispatch = useDispatch();
   const { currentSongId, isPlaying } = useSelector(state => state.music);
   const { AiOutlineHeart, AiFillHeart, MdSkipNext,
     MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle } = icons;
   const [heart, setHeart] = useState(true);
-  // const [audio, setAudio] = useState(new Audio());
-  const audio = useRef(new Audio());
-  const [source, setSource] = useState('');
+  const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
+  const [duration, setDuration] = useState(0);
+  const [curSecond, setCurSecond] = useState(0);
+  const thumbRef = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchDetailSong = async () => {
@@ -26,12 +30,9 @@ const Player = () => {
         setSongInfo(res1?.data?.data);
       }
       if (res2?.data?.err === 0) {
-        // setAudio(new Audio(res2.data.data['128']));
-        setSource(res2?.data?.data['128']);
+        audio.pause();
+        setAudio(new Audio(res2.data.data['128']));
       }
-      /* if (res2?.data?.err === -1110) {
-        setSource(res2?.data.data['128']);
-      } */
     }
     fetchDetailSong();
   }, [currentSongId])
@@ -41,18 +42,32 @@ const Player = () => {
   }
   
   useEffect(() => {
-    audio.current.src = source;
+    audio.load();
     if (isPlaying === true) {
-      audio.current.play();
+      audio.play();
     }
-  },[audio, source]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[audio]);
+
+  useEffect(() => {
+        if (isPlaying) {
+            const thumbEl = document.getElementById('thumb-progress')
+            intervalId = setInterval(() => {
+              let percent = Math.round(audio.currentTime * 10000 / songInfo.duration) / 100;
+              setCurSecond(Math.round(audio.currentTime * 1000));
+              thumbRef.current.style.cssText = `right: ${100 - percent}%`
+            }, 200)
+        } else {
+            intervalId && clearInterval(intervalId)
+        }
+    }, [isPlaying])
 
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
-      audio.current.pause();
+      audio.pause();
       dispatch(actions.play(false))
     } else {
-      audio.current.play();
+      audio.play();
       dispatch(actions.play(true))
     }
   }
@@ -84,7 +99,13 @@ const Player = () => {
                 <span className='cursor-pointer'><MdSkipNext size={24}/></span>
                 <span className='cursor-pointer' title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
             </div>
-          <div>progress bar</div>
+            <div className='w-full flex justify-center items-center gap-3'>
+                <span>{moment.utc(curSecond ).format('mm:ss')}</span>
+                <div className='w-[60%] h-[3px] rounded-l-full rounded-r-full  bg-white relative'>
+                  <div ref={thumbRef} id='thumb-progress' className='absolute top-0 left-0  h-[3px]  rounded-l-full rounded-r-full bg-[#9b4de0]'></div>
+                </div>
+                <span>{moment.utc(songInfo?.duration * 1000).format('mm:ss')}</span>
+            </div>
         </div>
         <div className='w-[30%] flex-auto'>Volume</div>
     </div>

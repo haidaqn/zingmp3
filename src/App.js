@@ -21,7 +21,7 @@ function App() {
             <Route path={path.HOME} element={ <Home/>} />
             <Route path={path.LOGIN} element={<Login />} />
             <Route path={path.ALBUM__TITLE__PID} element={<Album />} />
-
+            <Route path={path.PLAY__TITLE__PID} element={<Album />} />
 
             <Route path={path.START} element={ <Home/>} />
           </Route>

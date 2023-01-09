@@ -52,16 +52,7 @@ const Slider = () => {
         }
         if (item?.type === 4) { // album
             const albumPath = item?.link.split('.')[0];
-            if (albumPath.includes('album')) {
-                navigate(albumPath);
-            }
-            else {
-                const splitPath = albumPath.split('/');
-                console.log(splitPath);
-                const newAlbumPath = 'album/' + splitPath[2] + '/' + splitPath[3];
-                navigate(newAlbumPath);
-                console.log(newAlbumPath);
-            }
+            navigate(albumPath);
         }   
     };
 
