@@ -5,7 +5,6 @@ import icon from '../utils/icon';
 
 const { BsDot } = icon;
 
-
 const Lists = ({ songs, totalDuration }) => {
     
     return (

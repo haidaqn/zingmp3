@@ -15,7 +15,6 @@ const Player = () => {
   const [heart, setHeart] = useState(true);
   const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
-  const [duration, setDuration] = useState(0);
   const [curSecond, setCurSecond] = useState(0);
   const thumbRef = useRef();
   const dispatch = useDispatch();
@@ -42,25 +41,22 @@ const Player = () => {
   }
   
   useEffect(() => {
+    intervalId && clearInterval(intervalId);
+    audio.pause();
     audio.load();
+    audio.currentTime = 0;      
     if (isPlaying === true) {
       audio.play();
+      const thumbProgress = document.getElementById('thumb-progress')
+      intervalId = setInterval(() => {
+        let percent = Math.round(audio.currentTime * 10000 / songInfo.duration) / 100;
+        setCurSecond(Math.round(audio.currentTime * 1000));
+        thumbRef.current.style.cssText = `right: ${100 - percent}%`
+      }, 200)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[audio]);
 
-  useEffect(() => {
-        if (isPlaying) {
-            const thumbEl = document.getElementById('thumb-progress')
-            intervalId = setInterval(() => {
-              let percent = Math.round(audio.currentTime * 10000 / songInfo.duration) / 100;
-              setCurSecond(Math.round(audio.currentTime * 1000));
-              thumbRef.current.style.cssText = `right: ${100 - percent}%`
-            }, 200)
-        } else {
-            intervalId && clearInterval(intervalId)
-        }
-    }, [isPlaying])
 
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
