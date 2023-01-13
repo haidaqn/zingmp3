@@ -3,8 +3,7 @@ import { combineReducers, applyMiddleware } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import musicReducer from "./music";
-
+import musicReducer from "./musicReducers";
 
 const commonConfig = {
     storage,

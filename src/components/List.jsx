@@ -17,7 +17,8 @@ const List = ({ songData }) => {
             className='flex justify-between items-center p-[10px] border-t border-[rgba(0,0,0,0.05)] hover:bg-[#DDE4E4] cursor-pointer'
             onClick={() => {
                 dispatch(actions.setCurSongId(songData?.encodeId));
-                dispatch(actions.play(true))
+                dispatch(actions.playAlbum(true));
+                dispatch(actions.play(true));
             }}
         >
             <div className='flex items-center gap-3 flex-1'>

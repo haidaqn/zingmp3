@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Album, Home, Login, Public } from './containers/public/index';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import * as actions from './store/actions';
 import path from './utils/path'
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <>
-      <div className=''>
+      <div className='App'>
         <Routes>
           <Route path={path.PUBLIC} element={<Public />}>
             <Route path={path.HOME} element={ <Home/>} />

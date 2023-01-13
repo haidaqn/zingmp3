@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Slider = () => {
 
     const navigate = useNavigate();
-    const { banner } = useSelector(state => state.app);
+    const { banner, songs } = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -48,12 +48,19 @@ const Slider = () => {
     const handleClickBanner = (item) => {
         if (item?.type === 1) { // bài nhạc
             dispatch(actions.setCurSongId(item?.encodeId));
-            dispatch(actions.play(true));
+            dispatch(actions.playAlbum(false));
+            dispatch(actions.play(false));
+            dispatch(actions.setPlayList(null));
         }
-        if (item?.type === 4) { // album
+        else if (item?.type === 4) { // album
             const albumPath = item?.link.split('.')[0];
+            dispatch(actions.playAlbum(true));
             navigate(albumPath);
         }   
+        else {
+            dispatch(actions.setPlayList(null));
+            dispatch(actions.playAlbum(false));
+        } 
     };
 
   return (
