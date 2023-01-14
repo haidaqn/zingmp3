@@ -6,7 +6,7 @@ import * as actions from '../store/actions';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-var intervalId
+var intervalId;
 
 const Player = () => {
 
@@ -75,7 +75,6 @@ const Player = () => {
       dispatch(actions.play(true))
     }
   }
-
   //progress bar
   const handleProgressBar = (e) => {
     
@@ -84,7 +83,7 @@ const Player = () => {
     thumbRef.current.style.cssText = `right: ${100- percent}`
     audio.currentTime = percent * songInfo.duration / 100;
   }
- 
+  // next song
   const handleNextSong = () => {
     if (songs) {
       let currentSongIndex;
@@ -101,6 +100,7 @@ const Player = () => {
       dispatch(actions.play(true));
     }
   }
+  // prev song
   const handlePrevSong = () => {
     if (songs) {
       let currentSongIndex;
@@ -117,6 +117,22 @@ const Player = () => {
       dispatch(actions.play(true));
     }
   }
+  // shuffle song
+  /* const handleShuffle = () => {
+    let currentSongIndex;
+    songs.forEach((item, index) => {
+      if (item.encodeId === currentSongId) {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        if (randomIndex === index) {
+          currentSongIndex = randomIndex - 1;
+        }
+        else {
+          currentSongIndex = randomIndex;
+        }
+      }
+    });
+    dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
+  } */
 
   // 
 

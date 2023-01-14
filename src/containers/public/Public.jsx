@@ -10,7 +10,7 @@ const Public = () => {
           <SidebarLeft/>
         </div>
         <div className="flex-auto px-[59px]">
-          <div className='h-[70px]  flex items-center text-[#544e5c] mb-5'>
+          <div className='h-[70px] flex items-center text-[#544e5c] mb-5'>
             <Header />
           </div>
           <Outlet />
