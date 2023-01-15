@@ -17,6 +17,8 @@ const Player = () => {
   const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
   const [curSecond, setCurSecond] = useState(0);
+  const [shuffle, setShuffle] = useState(false);
+  const [repeat, setRepeat] = useState(false);
   const thumbRef = useRef();
   const progressBar = useRef();
   const dispatch = useDispatch();
@@ -96,7 +98,16 @@ const Player = () => {
           }
         }
       });
-      dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
+      if (shuffle === true) {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        if (randomIndex === currentSongIndex) {
+          randomIndex = randomIndex - 1;
+        }
+        dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
+      }
+      else {
+        dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
+      }
       dispatch(actions.play(true));
     }
   }
@@ -113,26 +124,27 @@ const Player = () => {
           }
         }
       });
-      dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
+      if (shuffle === true) {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        if (randomIndex === currentSongIndex) {
+          randomIndex = randomIndex - 1;
+        }
+        dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
+      }
+      else {
+        dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
+      }
       dispatch(actions.play(true));
     }
   }
   // shuffle song
-  /* const handleShuffle = () => {
-    let currentSongIndex;
-    songs.forEach((item, index) => {
-      if (item.encodeId === currentSongId) {
-        const randomIndex = Math.floor(Math.random() * songs.length);
-        if (randomIndex === index) {
-          currentSongIndex = randomIndex - 1;
-        }
-        else {
-          currentSongIndex = randomIndex;
-        }
-      }
-    });
-    dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
-  } */
+  const handleShuffle = () => {
+    setShuffle(prev => !prev);
+  }
+
+  const handleRepeat = () => {
+    setRepeat(prev => !prev);
+  }
 
   // 
 
@@ -151,7 +163,7 @@ const Player = () => {
         </div>
         <div className='w-[40%] flex-auto flex-col flex gap-2 items-center'>
             <div className='flex gap-8 justify-center items-center '>
-                <span className='cursor-pointer' title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
+                <span onClick={handleShuffle} className={`${shuffle ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handlePrevSong}><MdSkipPrevious size={24}/></span>
                 <span className='cursor-pointer p-1 border-[2px] border-gray-700 hover:text-teal-600 rounded-full'
                       onClick={handleTogglePlayMusic}
@@ -159,7 +171,7 @@ const Player = () => {
                   {isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
                 </span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handleNextSong}><MdSkipNext size={24}/></span>
-                <span className='cursor-pointer' title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
+                <span onClick={handleRepeat} className={`${repeat ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
             </div>
             <div className='w-full flex justify-center items-center gap-3'>
                 <span>{moment.utc(curSecond ).format('mm:ss')}</span>

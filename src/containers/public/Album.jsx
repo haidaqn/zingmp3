@@ -29,7 +29,7 @@ const Album = () => {
     }, [pid])
 
     return (
-            <div className='flex gap-8 w-full'>
+        <div className='flex gap-8 w-full pt-8 '>
             <div className='flex-none w-[300px] text-white'>
                 <img className='w-full  object-contain rounded-md' alt="thumbnail" src={ playListData?.thumbnailM} />
                 <div className='mt-3 flex justify-center items-center'>
