@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector , useDispatch} from 'react-redux';
 import * as apis from '../apis';
@@ -10,18 +11,18 @@ var intervalId;
 
 const Player = () => {
 
+  const dispatch = useDispatch();
   const { currentSongId, isPlaying, songs, atAlbum } = useSelector(state => state.music);
   const { AiOutlineHeart, AiFillHeart, MdSkipNext,
     MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle } = icons;
-  const [heart, setHeart] = useState(true);
   const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
   const [curSecond, setCurSecond] = useState(0);
-  const [shuffle, setShuffle] = useState(false);
-  const [repeat, setRepeat] = useState(false);
+  const [heart, setHeart] = useState(true);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
   const thumbRef = useRef();
   const progressBar = useRef();
-  const dispatch = useDispatch();
 
   // get info song , link song theo encodeId
   useEffect(() => {
@@ -49,24 +50,23 @@ const Player = () => {
     fetchDetailSong();
   }, [currentSongId])
  
+  // console.log("shuffleSong : ", shuffleSong);
+  // console.log("repeatSong : ", repeatSong);
+
+
   const handleHeart = () => {
     setHeart(prev => !prev);
   }
-  
-  useEffect(() => {
-    intervalId && clearInterval(intervalId);
-    audio.pause();
-    audio.load();
-    if (isPlaying === true) {
-      audio.play();
-      intervalId = setInterval(() => {
-        let percent = Math.round(audio.currentTime * 10000 / songInfo.duration) / 100;
-        thumbRef.current.style.cssText = `right: ${100 - percent}%`
-        setCurSecond(Math.round(audio.currentTime * 1000));
-      }, 200)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[audio]);
+  // shuffle song
+  /* const handleShuffle = () => {
+    setIsShuffle(prev => !prev);
+    console.log(isShuffle);
+  } 
+  // repeat song
+  const handleRepeat = () => {
+    setIsRepeat(prev => !prev);
+    console.log(isRepeat);
+  } */
 
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
@@ -79,7 +79,6 @@ const Player = () => {
   }
   //progress bar
   const handleProgressBar = (e) => {
-    
     const progressBarRef = progressBar.current.getBoundingClientRect();
     let percent = Math.round(((e.clientX - progressBarRef.left) *10000 / progressBarRef.width) / 100);
     thumbRef.current.style.cssText = `right: ${100- percent}`
@@ -98,8 +97,8 @@ const Player = () => {
           }
         }
       });
-      if (shuffle === true) {
-        const randomIndex = Math.floor(Math.random() * songs.length);
+      if (isShuffle === true) {
+        let randomIndex = Math.floor(Math.random() * songs.length);
         if (randomIndex === currentSongIndex) {
           randomIndex = randomIndex - 1;
         }
@@ -124,8 +123,8 @@ const Player = () => {
           }
         }
       });
-      if (shuffle === true) {
-        const randomIndex = Math.floor(Math.random() * songs.length);
+      if (isShuffle === true) {
+        let randomIndex = Math.floor(Math.random() * songs.length);
         if (randomIndex === currentSongIndex) {
           randomIndex = randomIndex - 1;
         }
@@ -137,14 +136,54 @@ const Player = () => {
       dispatch(actions.play(true));
     }
   }
-  // shuffle song
-  const handleShuffle = () => {
-    setShuffle(prev => !prev);
-  }
 
-  const handleRepeat = () => {
-    setRepeat(prev => !prev);
-  }
+  useEffect(() => {
+    function handleEnded() {
+      dispatch(actions.play(true));
+      songs.forEach((item, index) => {
+        if (item.encodeId === currentSongId) {
+          if (isRepeat) {
+            console.log("đang ở phát lại");
+            audio.pause();
+            dispatch(actions.play(true));
+            audio.play();
+          }
+          else if (isShuffle) {
+              console.log("đang ở tự phát random");
+              dispatch(actions.setCurSongId(songs[Math.floor(Math.random() * songs.length)].encodeId));
+              dispatch(actions.play(true));
+          }
+          else {
+            console.log("đang ở tự chuyển bài");
+            if (index === songs.length - 1) {
+              dispatch(actions.setCurSongId(songs[0].encodeId));
+            } else {
+              dispatch(actions.setCurSongId(songs[index + 1].encodeId));
+            }
+          }
+        } 
+      })
+    }
+    audio.addEventListener('ended',handleEnded);
+    return () => {
+      audio.removeEventListener('ended', handleEnded);
+    }
+  },[audio,isRepeat,isShuffle]);
+  
+  useEffect(() => {
+    intervalId && clearInterval(intervalId);
+    audio.pause();
+    audio.load();
+    if (isPlaying === true) {
+      audio.play();
+      intervalId = setInterval(() => {
+        let percent = Math.round(audio.currentTime * 10000 / songInfo.duration) / 100;
+        thumbRef.current.style.cssText = `right: ${100 - percent}%`
+        setCurSecond(Math.round(audio.currentTime * 1000));
+      }, 200)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[audio]);
 
   // 
 
@@ -163,7 +202,7 @@ const Player = () => {
         </div>
         <div className='w-[40%] flex-auto flex-col flex gap-2 items-center'>
             <div className='flex gap-8 justify-center items-center '>
-                <span onClick={handleShuffle} className={`${shuffle ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
+                <span onClick={() => setIsShuffle(prev => !prev)} className={`${isShuffle ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handlePrevSong}><MdSkipPrevious size={24}/></span>
                 <span className='cursor-pointer p-1 border-[2px] border-gray-700 hover:text-teal-600 rounded-full'
                       onClick={handleTogglePlayMusic}
@@ -171,7 +210,7 @@ const Player = () => {
                   {isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
                 </span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handleNextSong}><MdSkipNext size={24}/></span>
-                <span onClick={handleRepeat} className={`${repeat ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
+                <span onClick={() => setIsRepeat(prev => !prev)} className={`${isRepeat ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
             </div>
             <div className='w-full flex justify-center items-center gap-3'>
                 <span>{moment.utc(curSecond ).format('mm:ss')}</span>

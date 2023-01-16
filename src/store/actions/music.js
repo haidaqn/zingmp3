@@ -1,3 +1,4 @@
+import { type } from '@testing-library/user-event/dist/type';
 import * as apis from '../../apis';
 import actionTypes from './actionType';
 
@@ -21,6 +22,8 @@ export const setPlayList = (songs) => ({
     type: actionTypes.PLAY_LIST,
     songs  
 })
+
+
 /* 
 export const fetchDetailPlaylist = (pid) => async (dispatch) => {
     try {
