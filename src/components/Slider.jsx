@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Slider = () => {
 
     const navigate = useNavigate();
-    const { banner, songs } = useSelector(state => state.app);
+    const { banner } = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {

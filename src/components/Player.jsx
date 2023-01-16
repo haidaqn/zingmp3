@@ -14,7 +14,7 @@ const Player = () => {
   const dispatch = useDispatch();
   const { currentSongId, isPlaying, songs, atAlbum } = useSelector(state => state.music);
   const { AiOutlineHeart, AiFillHeart, MdSkipNext,
-    MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle } = icons;
+    MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle, TbRepeatOnce } = icons;
   const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
   const [curSecond, setCurSecond] = useState(0);
@@ -50,24 +50,10 @@ const Player = () => {
     fetchDetailSong();
   }, [currentSongId])
  
-  // console.log("shuffleSong : ", shuffleSong);
-  // console.log("repeatSong : ", repeatSong);
-
-
   const handleHeart = () => {
     setHeart(prev => !prev);
   }
-  // shuffle song
-  /* const handleShuffle = () => {
-    setIsShuffle(prev => !prev);
-    console.log(isShuffle);
-  } 
-  // repeat song
-  const handleRepeat = () => {
-    setIsRepeat(prev => !prev);
-    console.log(isRepeat);
-  } */
-
+  
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
       audio.pause();
@@ -139,7 +125,6 @@ const Player = () => {
 
   useEffect(() => {
     function handleEnded() {
-      dispatch(actions.play(true));
       songs.forEach((item, index) => {
         if (item.encodeId === currentSongId) {
           if (isRepeat) {
@@ -157,8 +142,10 @@ const Player = () => {
             console.log("đang ở tự chuyển bài");
             if (index === songs.length - 1) {
               dispatch(actions.setCurSongId(songs[0].encodeId));
+              dispatch(actions.play(true));
             } else {
               dispatch(actions.setCurSongId(songs[index + 1].encodeId));
+              dispatch(actions.play(true));
             }
           }
         } 
@@ -210,7 +197,7 @@ const Player = () => {
                   {isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
                 </span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handleNextSong}><MdSkipNext size={24}/></span>
-                <span onClick={() => setIsRepeat(prev => !prev)} className={`${isRepeat ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát lại tất cả'><CiRepeat size={24}/></span>
+                <span onClick={() => setIsRepeat(prev => !prev)} className='cursor-pointer' title='Phát lại'>{ isRepeat ? <TbRepeatOnce size={24}/> : <CiRepeat size={24}/> } </span>
             </div>
             <div className='w-full flex justify-center items-center gap-3'>
                 <span>{moment.utc(curSecond ).format('mm:ss')}</span>

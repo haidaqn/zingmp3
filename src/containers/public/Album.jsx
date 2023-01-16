@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as apis from '../../apis';
 import moment from 'moment';
-import { Lists } from '../../components';
+import { Lists , LoadingAudio } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
-
+import icons from '../../utils/icon';
 
 const Album = () => {
 
+    const {BsFillPlayFill} = icons;
     const { pid } = useParams();
+    const { isPlaying } = useSelector(state => state.music);
     const [playListData, setPLayListData] = useState({});
     const dispatch = useDispatch();
 
@@ -26,12 +28,21 @@ const Album = () => {
             }
         }
         fetchDetailPlaylist()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pid])
 
     return (
         <div className='flex gap-8 w-full pt-8 '>
             <div className='flex-none w-[300px] text-white'>
-                <img className='w-full  object-contain rounded-md' alt="thumbnail" src={ playListData?.thumbnailM} />
+                <div className='w-full relative overflow-hidden hover:scale-120'>
+                    <img className={`w-full object-contain ${isPlaying ? 'rounded-full animate-img-rotate' : 'animate-img-rotate-pause rounded-md'}`}
+                        alt="thumbnail" src={playListData?.thumbnailM} />
+                    <div className={`absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center hover:bg-[rgba(0,0,0,0.3)] ${isPlaying && 'rounded-full'}`}>
+                        <div className='p-[10px] border border-white rounded-full'>
+                            {isPlaying ?<LoadingAudio />:<BsFillPlayFill size={35} />}
+                        </div>
+                    </div>
+                </div>
                 <div className='mt-3 flex justify-center items-center'>
                     <div className='text-center'>
                         <h1 className='font-bold text-[20px]'>{playListData?.title}</h1>
