@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as apis from '../../apis';
 import moment from 'moment';
-import { Lists , LoadingAudio } from '../../components';
+import { Lists , LoadingAudio,Loading } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
@@ -14,11 +14,14 @@ const Album = () => {
     const { pid } = useParams();
     const { isPlaying,isLoadedSource } = useSelector(state => state.music);
     const [playListData, setPLayListData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchDetailPlaylist = async () => {
-            const response = await apis.apiGetDeTailPlayList(pid)
+            dispatch(actions.loading(true));
+            const response = await apis.apiGetDeTailPlayList(pid);
+            dispatch(actions.loading(false));
             if (response?.data.err === 0) {
                 setPLayListData(response.data?.data);
                 dispatch(actions.setPlayList(response.data?.data?.song?.items));
@@ -32,7 +35,7 @@ const Album = () => {
     }, [pid])
 
     return (
-        <div className='flex gap-8 w-full pt-8 '>
+        <div className='flex relative gap-8 w-full pt-8 animate-scale-center'>
             <div className='flex-none w-[300px] text-white'>
                 <div className='w-full relative overflow-hidden hover:scale-120'>
                     <img className={`w-full object-contain ${ isLoadedSource ? 'animate-img-rotate-pause rounded-md' : 'rounded-full animate-img-rotate'}`}

@@ -1,10 +1,13 @@
 const actionType =  {
     GET_HOME: 'GET_HOME',
     SET_CUR_SONG_ID: 'SET_CUR_SONG_ID',
+    LOADED_SOURCE: 'LOADED_SOURCE',
+    LOADING : "LOADING",
+
+    //music
     PLAY: 'PLAY',
     SET_ALBUM: 'SET_ALBUM',
     PLAY_LIST: 'PLAY_LIST',
-    LOADED_SOURCE: 'LOADED_SOURCE',
 }
 
 export default actionType;

@@ -1,25 +1,25 @@
 import React, { memo } from 'react'
-import { useSelector,useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import * as actions from '../store/actions'
-
-const Section = () => {
+import * as actions from '../store/actions';
+import icon from '../utils/icon';
+const Section = ({data,flag}) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { friday } = useSelector(state => state.app);
+    const { FiChevronRight } = icon;
 
-    const itemFriday = friday.items;
+    const dataItem = data.items;
 
     //
     return (
         <div className='flex flex-col gap-5 mt-12 text-white mb-5'>
             <div className='flex items-center justify-between gap-5'>
-                <h1 className='text-5 font-bold'>{ friday?.title }</h1>
-                <span className='text-xs'>TẤT CẢ</span>
+                <h1 className='text-5 font-bold'>{ data?.title }</h1>
+                {flag && (<span className='text-xs flex items-center justify-center'>TẤT CẢ<FiChevronRight size={20}/> </span>)}
             </div>
             <div className='flex justify-between gap-[28px]'>
-                {itemFriday && itemFriday.slice(0,5).map( item => 
+                {dataItem && dataItem.slice(0,5).map( item => 
                     (
                     <div key={item?.encodeId} className='flex flex-col gap-2 flex-1 text-sm '>
                         <img src={item?.thumbnailM} alt="ảnh lỗi"
