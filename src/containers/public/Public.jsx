@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import { Player, SidebarLeft, SidebarRight , Header} from '../../components';
 
 const Public = () => {
+
+  const [isShowSidebarRight, setIsShowSidebarRight] = useState(true);
+
   return (
     <div className="w-full h-screen flex flex-col bg-[#170f23]">
       <div className='w-full h-full flex flex-auto'>
@@ -15,12 +18,15 @@ const Public = () => {
           </div>
           <Outlet />
         </div>
-        <div className="animate-slide-left w-[330px] hidden 1600:flex flex-none border-l-[1px] border-[#2d2537] bg-[#170f23]">
-          <SidebarRight/>
+        <div>
+          {isShowSidebarRight && (<div className="animate-slide-left w-[330px] hidden 1600:flex flex-none border-l-[1px] border-[#2d2537] bg-[#170f23]">
+            <SidebarRight />
+            </div>)
+          }
         </div>
       </div>
       <div className='flex-none z-50 h-[90px] border-t-[1px] border-[#2d2537]'>
-        <Player/>
+        <Player setIsShowSidebarRight={setIsShowSidebarRight} />
       </div>
     </div>
   )

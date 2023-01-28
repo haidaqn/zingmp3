@@ -23,7 +23,10 @@ export const setPlayList = (songs) => ({
     songs  
 })
 
-
+export const setSource = (flag) => ({
+    type: actionTypes.LOADED_SOURCE,
+    flag  
+})
 /* 
 export const fetchDetailPlaylist = (pid) => async (dispatch) => {
     try {

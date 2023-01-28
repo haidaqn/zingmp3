@@ -4,7 +4,8 @@ const initState = {
     currentSongId: null,
     isPlaying: false,
     atAlbum: false,
-    songs : null 
+    songs: null,
+    isLoadedSource : true
 }
 
 const musicReducer = (state = initState , action) => {
@@ -28,6 +29,11 @@ const musicReducer = (state = initState , action) => {
             return {
                 ...state,
                 songs : action?.songs || null
+            }
+        case actionType.LOADED_SOURCE: 
+            return {
+                ...state,
+                isLoadedSource : action?.flag
             }
         default:
             return state;

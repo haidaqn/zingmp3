@@ -6,31 +6,38 @@ import icons from '../utils/icon';
 import * as actions from '../store/actions';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import LoadingSong  from './LoadingSong';
 
 var intervalId;
 
-const Player = () => {
+const Player = ({setIsShowSidebarRight}) => {
 
   const dispatch = useDispatch();
-  const { currentSongId, isPlaying, songs, atAlbum } = useSelector(state => state.music);
+  const { currentSongId, isPlaying, songs, atAlbum,isLoadedSource } = useSelector(state => state.music);
   const { AiOutlineHeart, AiFillHeart, MdSkipNext,
-    MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle, TbRepeatOnce } = icons;
+    MdSkipPrevious, CiRepeat, BsPauseFill, BsFillPlayFill, CiShuffle, TbRepeatOnce, BsMusicNoteList,SlVolume2,SlVolume1, SlVolumeOff } = icons;
   const [audio, setAudio] = useState(new Audio());
   const [songInfo, setSongInfo] = useState('');
   const [curSecond, setCurSecond] = useState(0);
   const [heart, setHeart] = useState(true);
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
+  const [checkSource, setCheckSource] = useState(true);
+  const [volume, setVolume] = useState(30);
   const thumbRef = useRef();
   const progressBar = useRef();
 
   // get info song , link song theo encodeId
   useEffect(() => {
     const fetchDetailSong = async () => {
+      dispatch(actions.setSource(true));
+      setCheckSource(true);
       const [res1, res2] = await Promise.all([
         apis.getDetailSong(currentSongId),
         apis.getMusic(currentSongId)
       ])
+      dispatch(actions.setSource(false));
+      setCheckSource(false);
       if (res1?.data?.err === 0) {
         setSongInfo(res1?.data?.data);
       }
@@ -57,10 +64,14 @@ const Player = () => {
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
       audio.pause();
-      dispatch(actions.play(false))
+      dispatch(actions.play(false));
+      dispatch(actions.setSource(true));
+      setCheckSource(false);
     } else {
       audio.play();
-      dispatch(actions.play(true))
+      dispatch(actions.play(true));
+      dispatch(actions.setSource(false));
+      setCheckSource(false);
     }
   }
   //progress bar
@@ -72,6 +83,9 @@ const Player = () => {
   }
   // next song
   const handleNextSong = () => {
+    dispatch(actions.play(false));
+    dispatch(actions.setSource(true));
+    setCheckSource(true);
     if (songs) {
       let currentSongIndex;
       songs.forEach( (item,index) => {
@@ -94,10 +108,15 @@ const Player = () => {
         dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
       }
       dispatch(actions.play(true));
+      dispatch(actions.setSource(false));
+      setCheckSource(false);
     }
   }
   // prev song
   const handlePrevSong = () => {
+    dispatch(actions.play(false));
+    dispatch(actions.setSource(true));
+    setCheckSource(true);
     if (songs) {
       let currentSongIndex;
       songs.forEach( (item,index) => {
@@ -120,6 +139,8 @@ const Player = () => {
         dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
       }
       dispatch(actions.play(true));
+      dispatch(actions.setSource(false));
+      setCheckSource(false);
     }
   }
 
@@ -158,6 +179,10 @@ const Player = () => {
   },[audio,isRepeat,isShuffle]);
   
   useEffect(() => {
+    audio.volume = ( volume / 100).toFixed(1);
+  },[volume]);
+
+  useEffect(() => {
     intervalId && clearInterval(intervalId);
     audio.pause();
     audio.load();
@@ -190,13 +215,13 @@ const Player = () => {
         <div className='w-[40%] flex-auto flex-col flex gap-2 items-center'>
             <div className='flex gap-8 justify-center items-center '>
                 <span onClick={() => setIsShuffle(prev => !prev)} className={`${isShuffle ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
-                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handlePrevSong}><MdSkipPrevious size={24}/></span>
+                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={atAlbum && (()=>handlePrevSong())}><MdSkipPrevious size={24}/></span>
                 <span className='cursor-pointer p-1 border-[2px] border-gray-700 hover:text-teal-600 rounded-full'
-                      onClick={handleTogglePlayMusic}
+                      onClick={()=>handleTogglePlayMusic()}
                 >
-                  {isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
+                  { isLoadedSource && checkSource ? <LoadingSong /> : isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
                 </span>
-                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={!atAlbum ? '':handleNextSong}><MdSkipNext size={24}/></span>
+                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={atAlbum && (()=>handleNextSong())}><MdSkipNext size={24}/></span>
                 <span onClick={() => setIsRepeat(prev => !prev)} className='cursor-pointer' title='Phát lại'>{ isRepeat ? <TbRepeatOnce size={24}/> : <CiRepeat size={24}/> } </span>
             </div>
             <div className='w-full flex justify-center items-center gap-3'>
@@ -210,7 +235,18 @@ const Player = () => {
                 <span>{moment.utc(songInfo?.duration * 1000).format('mm:ss')}</span>
             </div>
         </div>
-        <div className='w-[30%] flex-auto'>Volume</div>
+        <div className='w-[30%] flex-auto flex items-center justify-end gap-4 mr-5'>
+            <div className='flex gap-4'>
+              <span onClick={() => setVolume(prev => +prev === 0 ? 50 : 0) }>{ +volume >= 50 ? <SlVolume2 size={25}/> : +volume === 0 ? <SlVolumeOff size={25}/> : <SlVolume1 size={25}/> }</span>
+              <input type="range" min={0} max={100} value={volume} onChange={(e) => setVolume(e.target.value)} />
+            </div>
+            <span title='Danh sách phát'
+                  className='bg-[#9B4DE0] hover:opacity-90 border rounded-sm cursor-pointer border-[#9B4DE0]'
+                    onClick={()=> setIsShowSidebarRight(prev => !prev)}
+            >
+              <BsMusicNoteList size={30}/>
+            </span>
+        </div>
     </div>
   )
 }

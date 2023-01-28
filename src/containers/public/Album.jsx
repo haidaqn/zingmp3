@@ -12,7 +12,7 @@ const Album = () => {
 
     const {BsFillPlayFill} = icons;
     const { pid } = useParams();
-    const { isPlaying } = useSelector(state => state.music);
+    const { isPlaying,isLoadedSource } = useSelector(state => state.music);
     const [playListData, setPLayListData] = useState({});
     const dispatch = useDispatch();
 
@@ -35,11 +35,11 @@ const Album = () => {
         <div className='flex gap-8 w-full pt-8 '>
             <div className='flex-none w-[300px] text-white'>
                 <div className='w-full relative overflow-hidden hover:scale-120'>
-                    <img className={`w-full object-contain ${isPlaying ? 'rounded-full animate-img-rotate' : 'animate-img-rotate-pause rounded-md'}`}
+                    <img className={`w-full object-contain ${ isLoadedSource ? 'animate-img-rotate-pause rounded-md' : 'rounded-full animate-img-rotate'}`}
                         alt="thumbnail" src={playListData?.thumbnailM} />
                     <div className={`absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center hover:bg-[rgba(0,0,0,0.3)] ${isPlaying && 'rounded-full'}`}>
                         <div className='p-[10px] border border-white rounded-full'>
-                            {isPlaying ?<LoadingAudio />:<BsFillPlayFill size={35} />}
+                            {isLoadedSource ? <BsFillPlayFill size={35} /> : <LoadingAudio />} 
                         </div>
                     </div>
                 </div>
