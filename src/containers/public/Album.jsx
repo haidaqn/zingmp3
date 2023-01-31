@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as apis from '../../apis';
 import moment from 'moment';
-import { Lists , LoadingAudio,Loading } from '../../components';
+import { Lists , LoadingAudio } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';
@@ -14,7 +14,6 @@ const Album = () => {
     const { pid } = useParams();
     const { isPlaying,isLoadedSource } = useSelector(state => state.music);
     const [playListData, setPLayListData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
