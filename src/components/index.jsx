@@ -5,7 +5,7 @@ export { default as Search } from './Search';
 export { default as Slider } from './Slider';
 export { default as Player } from './Player';
 export { default as LoadingAudio } from './LoadingAudio';
-export { default as NewRelease } from './NewRelease';
+export { default as Release } from './Release';
 export { default as Partner } from './Partner';
 
 // dùng memo để bọc

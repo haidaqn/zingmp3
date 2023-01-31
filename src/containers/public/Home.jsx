@@ -1,7 +1,7 @@
 import React from 'react';
-import { Section, Slider,Partner } from '../../components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Section, Slider,Partner,Release } from '../../components';
 
 
 const Home = () => {
@@ -14,8 +14,8 @@ const Home = () => {
     <div className='overflow-y-auto'>
       <Slider />
       <Section data={friday} flag={true} />
+      {/* <Release /> */}
       <Section data={newEveryday} />  {/* nhạc mới mỗi ngày */}
-      {/* <NewRelease/> */}
       <Section data={top100} flag={true} /> {/* top100 */}
       
       <div className='flex items-center w-full mt-12'>

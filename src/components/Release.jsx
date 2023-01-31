@@ -4,7 +4,7 @@ import icon from '../utils/icon';
 import SongItem from './SongItem';
 
 
-const NewRelease = () => {
+const Release = () => {
 
     const { newRelease } = useSelector(state => state.app);
     const { FiChevronRight } = icon;
@@ -43,4 +43,4 @@ const NewRelease = () => {
     )
 }
 
-export default NewRelease
+export default Release
