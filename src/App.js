@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Album, Home, Login, Public } from './containers/public/index';
+import { Album, Home, Login, Public,WeekRank } from './containers/public/index';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
@@ -23,6 +23,8 @@ function App() {
             <Route path={path.LOGIN} element={<Login />} />
             <Route path={path.ALBUM__TITLE__PID} element={<Album />} />
             <Route path={path.PLAY__TITLE__PID} element={<Album />} />
+            <Route path={path.CHART__TITLE__PID} element={<WeekRank />} />
+
             <Route path={path.START} element={ <Home/>} />
           </Route>
         </Routes>
