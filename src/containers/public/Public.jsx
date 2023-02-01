@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom';
-import { Player, SidebarLeft, SidebarRight , Header,Loading} from '../../components';
+import { Player, SidebarLeft, SidebarRight , Header,Loading } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useSelector } from 'react-redux';
 
@@ -21,11 +21,11 @@ const Public = () => {
           {isLoading && <div className='absolute top-0 bottom-0 right-0 left-0 bg-[#170F23] opacity-90 z-30 flex justify-center items-center'>
             <Loading/>
           </div>}
-          <div className='h-[70px] flex-none items-center text-[#544e5c] mb-5'>
+          <div className='h-[70px] flex-none items-center text-[#544e5c] mt-5 '>
             <Header />
           </div>
           <div className='flex-auto w-full'>
-            <Scrollbars style={{width:'100%', height : '100%'}}>
+            <Scrollbars autoHide style={{width:'100%', height : '100%'}}>
               <Outlet />
             </Scrollbars>
           </div>

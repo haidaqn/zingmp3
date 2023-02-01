@@ -6,7 +6,9 @@ const initState = {
     newEveryday: {},
     top100: {},
     xone: {},
-    isLoading : false,
+    isLoading: false,
+    newRelease: {},
+    newChart: [],
 }
 
 const apptReducer = (state = initState , action) => {
@@ -19,6 +21,8 @@ const apptReducer = (state = initState , action) => {
                 newEveryday : action.homeData?.find(item => item.sectionId === "hAutoTheme2") || {},
                 top100 : action.homeData?.find(item => item.sectionId === "h100") || {},
                 xone : action.homeData?.find(item => item.sectionId === "hXone") || {},
+                newRelease : action.homeData?.find(item => item.sectionType === "new-release") || {},
+                newChart : action.homeData?.find(item => item.sectionType === "weekChart")?.items || [],
             };
         case actionType.LOADING: 
             return {

@@ -37,8 +37,8 @@ const Section = ({data,flag}) => {
                                     dispatch(actions.playAlbum(true))
                                     dispatch(actions.play(true))
                                 }}
-                                >{item?.title}</span>
-                            <span>{ `${item?.sortDescription.slice(0,46)}...`}</span>
+                                >{`${item?.title.slice(0,20)}...`}</span>
+                            <span>{ `${item?.sortDescription.slice(0,24)}...`}</span>
                         </div>
                     </div>
                 ))}

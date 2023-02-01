@@ -58,7 +58,7 @@ const Album = () => {
                 <div className='flex-auto mb-40'>
                     <span className='text-sm'>
                         <span className='text-[hsla(0,0%,100%,0.5)]'>Lời tựa </span>
-                        <span className='text-white'>{playListData?.sortDescription}</span>
+                        <span className='text-white'>{`${playListData?.sortDescription}...`}</span>
                     </span>
                     <Lists totalDuration={playListData?.song?.totalDuration} />
                 </div>

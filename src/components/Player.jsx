@@ -214,7 +214,7 @@ const Player = ({setIsShowSidebarRight}) => {
         </div>
         <div className='w-[40%] flex-auto flex-col flex gap-2 items-center'>
             <div className='flex gap-8 justify-center items-center '>
-                <span onClick={() => setIsShuffle(prev => !prev)} className={`${isShuffle ? 'cursor-pointer' : 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
+                <span onClick={() => setIsShuffle(prev => !prev)} className={` cursor-pointer ${!isShuffle && 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
                 <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={atAlbum && (()=>handlePrevSong())}><MdSkipPrevious size={24}/></span>
                 <span className='cursor-pointer p-1 border-[2px] border-gray-700 hover:text-teal-600 rounded-full'
                       onClick={()=>handleTogglePlayMusic()}
