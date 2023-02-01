@@ -16,6 +16,7 @@ const Home = () => {
       <Section data={friday} flag={true} />
       {/* <Release /> */}
       <Section data={newEveryday} />  {/* nhạc mới mỗi ngày */}
+      {/* <NewRelease/> */}
       <Section data={top100} flag={true} /> {/* top100 */}
       
       <div className='flex items-center w-full mt-12'>
