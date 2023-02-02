@@ -13,9 +13,9 @@ const Home = () => {
   return (
     <div className='overflow-y-auto'>
       <Slider />
-      <Section data={friday} flag={true} />
-      {/* <Release /> ERROR */}
       <Section data={newEveryday} />  {/* nhạc mới mỗi ngày */}
+      <Release />
+      <Section data={friday} flag={true} />
       <Section data={top100} flag={true} /> {/* top100 */}
       
       <div className='flex items-center w-full mt-12'>

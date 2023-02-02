@@ -1,15 +1,13 @@
 import React, { memo } from 'react';
 import moment from 'moment';
-import 'moment/locale/vi'
 import { useDispatch } from 'react-redux';
 import * as actions from '../store/actions';
+import 'moment/locale/vi';
 
-const SongItems = ({ thumbnail, title, artists, releaseDate,idSong}) => {
+const SongItems = ({ thumbnail, title, artists, releaseDate, idSong}) => {
 
   const dispatch = useDispatch();
-
-//
-
+  //
   return (
     <div className='w-[30%] flex-auto flex p-[10px] rounded-[6px] hover:bg-[#2F2739]'>
       <img
