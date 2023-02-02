@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import * as apis from '../../apis';
 import moment from 'moment';
 import { Lists , LoadingAudio } from '../../components';
@@ -12,6 +12,7 @@ const Album = () => {
 
     const {BsFillPlayFill} = icons;
     const { pid } = useParams();
+    const location = useLocation();
     const { isPlaying,isLoadedSource } = useSelector(state => state.music);
     const [playListData, setPLayListData] = useState({});
     const dispatch = useDispatch();
@@ -32,6 +33,15 @@ const Album = () => {
         fetchDetailPlaylist()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pid])
+
+    useEffect(() => {
+        if (location?.state?.playAlbum) {
+            dispatch(actions.setCurSongId(playListData?.song?.items[0]?.encodeId));
+            dispatch(actions.play(true));
+            dispatch(actions.playAlbum(true));
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[pid,playListData]);
 
     return (
         <div className='flex relative gap-8 w-full pt-8 animate-scale-center'>

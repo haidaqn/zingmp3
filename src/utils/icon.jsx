@@ -1,7 +1,7 @@
 import { MdOutlineLibraryMusic, MdOutlineFeed, MdSkipNext, MdSkipPrevious } from 'react-icons/md'
 import { HiOutlineChartPie, HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { TbChartArcs } from 'react-icons/tb'
-import { AiOutlineArrowLeft, AiOutlineArrowRight, AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiFillHeart, AiOutlineHeart,AiOutlineEllipsis } from 'react-icons/ai'
 import { FiSearch } from 'react-icons/fi'
 import { BsThreeDots, BsFillPlayFill, BsPauseFill, BsMusicNoteBeamed, BsDot,BsMusicNoteList } from 'react-icons/bs'
 import { CiRepeat, CiShuffle } from 'react-icons/ci'
@@ -35,6 +35,7 @@ const icons = {
     SlVolume1,
     SlVolumeOff,
     FiChevronRight,
+    AiOutlineEllipsis,
 }
 
 export default icons

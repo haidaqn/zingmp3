@@ -4,8 +4,8 @@ import { Audio } from 'react-loader-spinner';
 const LoadingAudio = () => {
     return (
         <Audio
-            height="35"
-            width="35"
+            height="33"
+            width="33"
             radius="9"
             color="white"
             ariaLabel="loading"

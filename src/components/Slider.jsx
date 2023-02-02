@@ -68,6 +68,7 @@ const Slider = () => {
             <div className='flex w-full gap-8 pt-8'>
                 {banner?.map((item, index) => (
                     <img
+                        alt="ảnh"
                         key={item.encodeId}
                         src={item.banner}
                         onClick={() => handleClickBanner(item)}

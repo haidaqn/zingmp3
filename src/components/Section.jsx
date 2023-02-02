@@ -1,15 +1,12 @@
 import React, { memo } from 'react'
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import * as actions from '../store/actions';
 import icon from '../utils/icon';
+import { HoverItem } from './'
+
 const Section = ({data,flag}) => {
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const { FiChevronRight } = icon;
 
-    const dataItem = data.items;
+    const dataItem = data.items; 
 
     //
     return (
@@ -19,29 +16,11 @@ const Section = ({data,flag}) => {
                 {flag && (<span className='text-xs flex items-center justify-center'>TẤT CẢ<FiChevronRight size={20}/> </span>)}
             </div>
             <div className='flex justify-between gap-[28px]'>
-                {dataItem && dataItem.slice(0,5).map( item => 
-                    (
-                    <div key={item?.encodeId} className='flex flex-col gap-2 flex-1 text-sm '>
-                        <img src={item?.thumbnailM} alt="ảnh lỗi"
-                            className='w-full rounded-lg mb-3 cursor-pointer '
-                            onClick={() => {
-                                navigate(item?.link.split('.')[0])
-                                dispatch(actions.playAlbum(true))
-                                dispatch(actions.play(true))
-                            }}    
-                        />
-                        <div className='flex flex-col'>
-                            <span className="font-bold mb-1 cursor-pointer hover:text-[#9b4de0]"
-                                onClick={() => {
-                                    navigate(item?.link.split('.')[0])
-                                    dispatch(actions.playAlbum(true))
-                                    dispatch(actions.play(true))
-                                }}
-                                >{`${item?.title.slice(0,20)}...`}</span>
-                            <span>{ `${item?.sortDescription.slice(0,24)}...`}</span>
-                        </div>
-                    </div>
-                ))}
+                {dataItem && dataItem.slice(0, 5).map(item =>
+                    <HoverItem key={item.encodeId} encodeId={item?.encodeId}
+                        thumbnailM={item?.thumbnailM} title={item?.title}
+                        sortDescription={item?.sortDescription} link={item?.link} />
+                )}
             </div>
         </div>
     )
