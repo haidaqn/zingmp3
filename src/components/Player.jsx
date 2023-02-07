@@ -57,9 +57,6 @@ const Player = ({setIsShowSidebarRight}) => {
     fetchDetailSong();
   }, [currentSongId])
  
-  const handleHeart = () => {
-    setHeart(prev => !prev);
-  }
   
   const handleTogglePlayMusic = async () => {
     if (isPlaying) {
@@ -83,64 +80,68 @@ const Player = ({setIsShowSidebarRight}) => {
   }
   // next song
   const handleNextSong = () => {
-    dispatch(actions.play(false));
-    dispatch(actions.setSource(true));
-    setCheckSource(true);
-    if (songs) {
-      let currentSongIndex;
-      songs.forEach( (item,index) => {
-        if (item.encodeId === currentSongId) {
-          if (index === songs.length - 1 ) {
-            currentSongIndex = 0;
-          } else {
-            currentSongIndex = index + 1;
+    if (atAlbum) {
+      dispatch(actions.play(false));
+      dispatch(actions.setSource(true));
+      setCheckSource(true);
+      if (songs) {
+        let currentSongIndex;
+        songs.forEach( (item,index) => {
+          if (item.encodeId === currentSongId) {
+            if (index === songs.length - 1 ) {
+              currentSongIndex = 0;
+            } else {
+              currentSongIndex = index + 1;
+            }
           }
+        });
+        if (isShuffle === true) {
+          let randomIndex = Math.floor(Math.random() * songs.length);
+          if (randomIndex === currentSongIndex) {
+            randomIndex = randomIndex - 1;
+          }
+          dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
         }
-      });
-      if (isShuffle === true) {
-        let randomIndex = Math.floor(Math.random() * songs.length);
-        if (randomIndex === currentSongIndex) {
-          randomIndex = randomIndex - 1;
+        else {
+          dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
         }
-        dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
-      }
-      else {
-        dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
-      }
-      dispatch(actions.play(true));
-      dispatch(actions.setSource(false));
-      setCheckSource(false);
+        dispatch(actions.play(true));
+        dispatch(actions.setSource(false));
+        setCheckSource(false);
+      } 
     }
   }
   // prev song
   const handlePrevSong = () => {
-    dispatch(actions.play(false));
-    dispatch(actions.setSource(true));
-    setCheckSource(true);
-    if (songs) {
-      let currentSongIndex;
-      songs.forEach( (item,index) => {
-        if (item.encodeId === currentSongId) {
-          if (index === 0) {
-            currentSongIndex = songs.length - 1;
-          } else {
-            currentSongIndex = index - 1;
+    if (atAlbum) {
+      dispatch(actions.play(false));
+      dispatch(actions.setSource(true));
+      setCheckSource(true);
+      if (songs) {
+        let currentSongIndex;
+        songs.forEach( (item,index) => {
+          if (item.encodeId === currentSongId) {
+            if (index === 0) {
+              currentSongIndex = songs.length - 1;
+            } else {
+              currentSongIndex = index - 1;
+            }
           }
+        });
+        if (isShuffle === true) {
+          let randomIndex = Math.floor(Math.random() * songs.length);
+          if (randomIndex === currentSongIndex) {
+            randomIndex = randomIndex - 1;
+          }
+          dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
         }
-      });
-      if (isShuffle === true) {
-        let randomIndex = Math.floor(Math.random() * songs.length);
-        if (randomIndex === currentSongIndex) {
-          randomIndex = randomIndex - 1;
+        else {
+          dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
         }
-        dispatch(actions.setCurSongId(songs[randomIndex].encodeId));
+        dispatch(actions.play(true));
+        dispatch(actions.setSource(false));
+        setCheckSource(false);
       }
-      else {
-        dispatch(actions.setCurSongId(songs[currentSongIndex].encodeId));
-      }
-      dispatch(actions.play(true));
-      dispatch(actions.setSource(false));
-      setCheckSource(false);
     }
   }
 
@@ -208,20 +209,22 @@ const Player = ({setIsShowSidebarRight}) => {
             <span className='text-[#78747d] text-xs'>{songInfo?.artistsNames}</span>
           </div>
           <div className='text-white ml-2'>
-            {heart ? <div onClick={() => handleHeart()}><AiFillHeart size={26} /></div> :
-              <div onClick={() => handleHeart()}><AiOutlineHeart size={26}/></div>}
+            {heart ? <div onClick={() => setHeart(prev => !prev)}><AiFillHeart size={26} /></div> :
+              <div onClick={() => setHeart(prev => !prev)}><AiOutlineHeart size={26}/></div>}
           </div>
         </div>
         <div className='w-[40%] flex-auto flex-col flex gap-2 items-center'>
             <div className='flex gap-8 justify-center items-center '>
-                <span onClick={() => setIsShuffle(prev => !prev)} className={` cursor-pointer ${!isShuffle && 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
-                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={atAlbum && (()=>handlePrevSong())}><MdSkipPrevious size={24}/></span>
+                <span onClick={ () => setIsShuffle(prev => !prev)} className={` cursor-pointer ${!isShuffle && 'text-gray-500/80'}`} title='Bật phát ngẫu nhiên'><CiShuffle size={24}/></span>
+                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} 
+                  onClick={()=>handlePrevSong()}><MdSkipPrevious size={24}/></span>
                 <span className='cursor-pointer p-1 border-[2px] border-gray-700 hover:text-teal-600 rounded-full'
                       onClick={()=>handleTogglePlayMusic()}
                 >
                   { isLoadedSource && checkSource ? <LoadingSong /> : isPlaying ? <BsPauseFill size={30} /> : <BsFillPlayFill size={30} />}
                 </span>
-                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} onClick={atAlbum && (()=>handleNextSong())}><MdSkipNext size={24}/></span>
+                <span className={`${!atAlbum ? 'text-gray-500/80' : 'cursor-pointer'}`} 
+                  onClick={()=>handleNextSong()}><MdSkipNext size={24}/></span>
                 <span onClick={() => setIsRepeat(prev => !prev)} className='cursor-pointer' title='Phát lại'>{ isRepeat ? <TbRepeatOnce size={24}/> : <CiRepeat size={24}/> } </span>
             </div>
             <div className='w-full flex justify-center items-center gap-3'>

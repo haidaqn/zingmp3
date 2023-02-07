@@ -25,10 +25,12 @@ const Connect = () => {
             <div className='w-full flex items-center justify-center my-[30px]'>
                 <span className='text-[#817D87] font-bold'>ĐỐI TÁC ÂM NHẠC</span>
             </div>
-            <div className='flex flex-wrap gap-5 w-full'>
+            <div className='flex flex-wrap gap-5 w-full mb-[40px]'>
                 {
                     ListConnect.map((item,index) => (
-                        <div key={index } className='overflow-hidden rounded-[10px] bg-white w-[103px] flex flex-auto items-center justify-center mb-[30px] h-[58px]'>
+                        <div key={index}
+                            className='overflow-hidden rounded-[10px] bg-white flex flex-auto 
+                                        items-center justify-center mb-[30px] h-[58px] w-[10%] '>
                                 <img alt="ảnh" src={ item } className="max-w-[90%] max-h-[80%] w-auto" />
                         </div>
                     ))

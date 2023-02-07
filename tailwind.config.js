@@ -119,9 +119,14 @@ module.exports = {
         'scale-up-img' : 'scale-up-img 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
         'scale-down-img' : 'scale-down-img 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
       },
+      flex: {
+        '4' : '4 4 0%',
+        '6' : '6 6 0%',
+      },
     },
     screens: {
-      "1600" : "1600px"
+      "1600": "1600px",
+      'desktop': '1280px'
     },
   },
   plugins: [],

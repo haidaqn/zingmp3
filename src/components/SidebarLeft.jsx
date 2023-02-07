@@ -3,7 +3,7 @@ import logo from '../assets/logo.svg';
 import { sidebarMenu } from '../utils/menu';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import path from '../utils/path'
+import path from '../utils/path';
 import { useDispatch } from 'react-redux';
 import * as actions from '../store/actions';
 

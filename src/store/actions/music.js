@@ -1,5 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type';
-import * as apis from '../../apis';
 import actionTypes from './actionType';
 
 
