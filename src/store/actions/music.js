@@ -30,21 +30,13 @@ export const loading = (flag) => ({
     type: actionTypes.LOADING,
     flag  
 })
-/* 
-export const fetchDetailPlaylist = (pid) => async (dispatch) => {
-    try {
-        const response = await apis.apiGetDeTailPlayList(pid);
-        if (response?.data.err === 0) {
-            dispatch({
-                type: actionTypes.PLAY_LIST,
-                songs : response?.data?.data?.song?.items
-            })            
-        }
-    }
-    catch (err) {
-        dispatch({
-            type: actionTypes.PLAY_LIST,
-            songs : null
-        })
-    }
-} */
+
+export const setCurrentSongData = (data) => ({
+    type: actionTypes.SET_CUR_SONG_DATA,
+    data  
+})
+
+export const setAlbumSongData = (id) => ({
+    type: actionTypes.SET_ALBUM_SONG_DATA,
+    id  
+})

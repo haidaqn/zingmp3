@@ -8,6 +8,7 @@ import { CiRepeat, CiShuffle } from 'react-icons/ci'
 import { TbRepeatOnce } from 'react-icons/tb';
 import { SlVolume2, SlVolume1, SlVolumeOff } from "react-icons/sl";
 import { FiChevronRight } from "react-icons/fi";
+import { TfiAlarmClock } from "react-icons/tfi";
 const icons = {
     MdOutlineLibraryMusic,
     HiOutlineChartPie,
@@ -36,6 +37,7 @@ const icons = {
     SlVolumeOff,
     FiChevronRight,
     AiOutlineEllipsis,
+    TfiAlarmClock,
 }
 
 export default icons

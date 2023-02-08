@@ -40,6 +40,7 @@ const Player = ({setIsShowSidebarRight}) => {
       setCheckSource(false);
       if (res1?.data?.err === 0) {
         setSongInfo(res1?.data?.data);
+        dispatch(actions.setCurrentSongData(res1?.data?.data));
       }
       if (res2?.data?.err === 0) {
         audio.pause();

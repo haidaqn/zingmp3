@@ -4,22 +4,27 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../store/actions';
 import 'moment/locale/vi';
 
-const SongItems = ({ thumbnail, title, artists, releaseDate, idSong}) => {
+const SongItems = ({ thumbnail, title, artists, releaseDate, idSong, sm,style,hv}) => {
 
   const dispatch = useDispatch();
   //
   return (
-    <div className='w-[30%] flex-auto flex p-[10px] rounded-[6px] hover:bg-[#2F2739]'>
-      <img
-        onClick={() => {
-          dispatch(actions.play(true))
-          dispatch(actions.setCurSongId(idSong))
-        }}  
-        className='w-[60px] h-[60px] mr-[10px] object-cover rounded-sm cursor-pointer' src={thumbnail} alt='thumbnail' />
-      <div className='overflow-hidden flex flex-col'>
-        <span className='text-white text-sm font-semibold'>{`${title.slice(0,24)}...`}</span>
-        <span className='text-xs text-gray-400'>{artists}</span>
-        <span>{moment(releaseDate * 1000).fromNow()}</span>
+    <div className={` flex-auto flex p-[10px] rounded-[6px]  ${sm ? `${style} w-full` : 'w-[30%]'} ${ hv && 'hover:bg-[#2F2739]'}`}>
+        <div className='flex gap-4'>
+          <img
+          onClick={() => {
+            dispatch(actions.play(true))
+            dispatch(actions.setCurSongId(idSong))
+            }
+          }  
+          className={`object-cover rounded-sm cursor-pointer ${sm ? 'w-[40px] h-[40px]' :'w-[60px] h-[60px]'}`} src={thumbnail} alt='thumbnail' />
+        <div className=' overflow-hidden flex flex-col'>
+          <span className='text-white text-sm font-semibold'>{`${title.slice(0,24)}...`}</span>
+          <span className='text-xs text-gray-400'>{artists}</span>
+          {
+            releaseDate &&  <span>{moment(releaseDate * 1000).fromNow()}</span>
+          }
+        </div>
       </div>
     </div>
   )

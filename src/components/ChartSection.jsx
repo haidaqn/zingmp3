@@ -12,32 +12,7 @@ const ChartSection = () => {
   
   const { chart } = useSelector(state => state.app);
   const [data, setData] = useState({});
-/* 
-  const encodeId = [];
-  for (let i = 0; i < 3; i++) { 
-    encodeId.push(chart?.chart?.items[Object.values(chart?.chart?.items)[i]]);
-  }
-  // console.log(encodeId);
 
-  let handleTimes = (times) => {
-        let labels = [];
-        times.forEach((item, index) => {
-            if (index % 2 === 0 && index < 23) {
-                labels.push(item.hour + ':00');
-            }
-        });
-        return labels;
-  };
-  
-  let handleCounter = (items, encodeId) => {
-        let counters = [];
-        items[encodeId].forEach((item, index) => {
-            if (index % 2 === 0 && index < 24) {
-                counters.push(item.counter);
-            }
-        });
-        return counters;
-  }; */
   const options = {
       responsive: true,
       pointRadius: 0,
@@ -78,7 +53,7 @@ const ChartSection = () => {
       setData({ labels, datatset });
     }   // console.log(labels); console.log(datatset);
   },[chart]);
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className='relative'>

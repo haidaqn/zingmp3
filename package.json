@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "chartjs": "^0.3.24",
+    "faker": "^6.6.6",
     "react-apexcharts": "^1.4.0",
     "react-chartjs-2": "^5.2.0",
     "react-loader-spinner": "^5.3.4",

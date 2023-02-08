@@ -31,7 +31,7 @@ const Public = () => {
           </div>
         </div>
         <div>
-          {isShowSidebarRight && (<div className="animate-slide-left w-[330px] hidden 1600:flex flex-none border-l-[1px] border-[#2d2537] bg-[#170f23]">
+          {isShowSidebarRight && (<div className="animate-slide-left w-[330px] h-full hidden 1600:flex flex-none border-l-[1px] border-[#2d2537] bg-[#170f23]">
             <SidebarRight />
             </div>)
           }

@@ -9,7 +9,8 @@ const initState = {
     isLoading: false,
     newRelease: {},
     newChart: [],
-    chart : {},
+    chart: {},
+    rank : [],
 }
 
 const apptReducer = (state = initState , action) => {
