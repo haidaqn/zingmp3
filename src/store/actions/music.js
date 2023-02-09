@@ -40,3 +40,7 @@ export const setAlbumSongData = (id) => ({
     type: actionTypes.SET_ALBUM_SONG_DATA,
     id  
 })
+export const setRecent = (data) => ({
+    type: actionTypes.SET_RECENT,
+    data
+})

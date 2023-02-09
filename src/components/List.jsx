@@ -19,6 +19,8 @@ const List = ({ songData }) => {
                 dispatch(actions.setCurSongId(songData?.encodeId));
                 dispatch(actions.playAlbum(true));
                 dispatch(actions.play(true));
+                dispatch(actions.setRecent({ thumbnail :songData?.thumbnail , title : songData?.title, 
+                                            artists:songData?.artistsNames, idSong : songData?.encodeId }));
             }}
         >
             <div className='flex items-center gap-3 flex-1'>

@@ -11,7 +11,7 @@ const SidebarRight = () => {
 
   const {AiOutlineEllipsis,TfiAlarmClock  } = icons;
   const [isRecent,setIsRecent] = useState(true);
-  const { currentSongData, albumId} = useSelector(state => state.music);
+  const { currentSongData, albumId, recentSongs, isPlaying} = useSelector(state => state.music);
   // console.log(currentSongData);
   const [playlist, setPlayList] = useState();
 
@@ -24,9 +24,13 @@ const SidebarRight = () => {
 
     if (albumId) fetchDataPlayList();
 
-  },[albumId])
+  }, [albumId])
+  
+  useEffect(() => {
+    isPlaying && setIsRecent(true);
+  },[isPlaying]);
 
-  console.log(playlist);
+  console.log(recentSongs);
 
   return (
     <div className='text-xs text-white flex flex-col w-full f-full'>
@@ -44,7 +48,7 @@ const SidebarRight = () => {
           <span className='cursor-pointer rounded-full  p-1 flex items-center justify-center bg-[hsla(0,0%,100%,0.2)] opacity-90 hover:opacity-100'><AiOutlineEllipsis size={24}/></span>
         </div>
       </div>
-      <div className='w-full flex flex-auto flex-col px-2 '>
+      {isRecent ? (<div className='w-full flex flex-auto flex-col px-2 '>
          <Scrollbars autoHide style={{width:'100%', height : '100%'}}>
           <SongItem thumbnail={currentSongData?.thumbnail} title={currentSongData?.title}
             artists={currentSongData?.artistsNames} idSong={currentSongData?.encodeID}
@@ -72,7 +76,22 @@ const SidebarRight = () => {
             </div>
           }
         </Scrollbars>
-      </div>
+      </div>) : (<div className='w-full flex flex-auto flex-col px-2 '>
+          <Scrollbars autoHide style={{ width: '100%', height: '100%' }}>
+            {recentSongs && <div className='w-full flex flex-auto flex-col px-2 overflow-hidden'>
+                {recentSongs.map(item => (
+                    <SongItem
+                      key={item?.idSong}
+                      thumbnail={item.thumbnail} title={item.title}
+                      artists={item.artists} idSong={item.idSong}
+                      sm='1' 
+                      hv
+                    />
+                  ))}
+            </div> }
+          </Scrollbars>
+      </div>)}
+      
     </div>
   )
 }

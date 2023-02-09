@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import actionType from "../actions/actionType";
 
 const initState = {
@@ -7,7 +8,8 @@ const initState = {
     atAlbum: false,
     songs: null,
     isLoadedSource: true,
-    albumId : null,
+    albumId: null,
+    recentSongs : []
 }
 
 const musicReducer = (state = initState , action) => {
@@ -42,11 +44,26 @@ const musicReducer = (state = initState , action) => {
                 ...state,
                 currentSongData: action?.data || null
             }
-        
         case actionType.SET_ALBUM_SONG_DATA:
             return {
                 ...state,
                 albumId: action?.id || null
+            }
+        case actionType.SET_RECENT:
+
+            let songs = state.recentSongs;
+            if (action?.data) {
+                if(songs?.some(item => item.idSong === action.data.idSong)) 
+                    songs = songs.filter(item => item.idSong !== action.data.idSong) 
+            }
+            songs = [action.data, ...songs];
+            
+            console.log(songs);
+
+            return {
+                ...state,
+                recentSongs: songs
+                // action.data ? [ action.data, ...state.recentSongs ] : state.recentSongs
             }
         default:
             return state;
