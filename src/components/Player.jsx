@@ -24,8 +24,10 @@ const Player = ({setIsShowSidebarRight}) => {
   const [isRepeat, setIsRepeat] = useState(false);
   const [checkSource, setCheckSource] = useState(true);
   const [volume, setVolume] = useState(30);
+  const [isHover, setIsHover] = useState(true);
   const thumbRef = useRef();
   const progressBar = useRef();
+  const rightRef = useRef();
 
   // get info song , link song theo encodeId
   useEffect(() => {
@@ -181,8 +183,12 @@ const Player = ({setIsShowSidebarRight}) => {
   },[audio,isRepeat,isShuffle]);
   
   useEffect(() => {
-    audio.volume = ( volume / 100).toFixed(1);
+    audio.volume = (volume / 100).toFixed(1);
+    if (rightRef.current) {
+      rightRef.current.style.cssText = `right: ${100-volume}%`;
+    }
   },[volume]);
+
 
   useEffect(() => {
     intervalId && clearInterval(intervalId);
@@ -240,9 +246,15 @@ const Player = ({setIsShowSidebarRight}) => {
             </div>
         </div>
         <div className='w-[30%] flex-auto flex items-center justify-end gap-4 mr-5'>
-            <div className='flex gap-4'>
+            <div className='flex gap-4 items-center'
+              onMouseEnter={() => setIsHover(false)}
+              onMouseLeave={() => setIsHover(true)}
+            >
               <span onClick={() => setVolume(prev => +prev === 0 ? 50 : 0) }>{ +volume >= 50 ? <SlVolume2 size={25}/> : +volume === 0 ? <SlVolumeOff size={25}/> : <SlVolume1 size={25}/> }</span>
-              <input type="range" min={0} max={100} value={volume} onChange={(e) => setVolume(e.target.value)} />
+              {!isHover && <input className='w-[130px] bg-white' type="range" min={0} max={100} value={volume} onChange={(e) => setVolume(e.target.value)} /> }    
+              <div className={`w-[130px] h-[5px] bg-[#595460] rounded-l-full rounded-r-full ${isHover ? 'relative' : 'hidden'} `}>
+                <div ref={rightRef} className='absolute top-0 left-0 bottom-0 bg-white rounded-l-full rounded-r-full'></div>
+              </div>
             </div>
             <span title='Danh sách phát'
                   className='bg-[#9B4DE0] hover:opacity-90 border rounded-sm cursor-pointer border-[#9B4DE0]'
