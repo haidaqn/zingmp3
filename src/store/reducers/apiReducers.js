@@ -25,7 +25,8 @@ const apptReducer = (state = initState , action) => {
                 xone : action.homeData?.find(item => item.sectionId === "hXone") || {},
                 newRelease : action.homeData?.find(item => item.sectionType === "new-release") || {},
                 newChart: action.homeData?.find(item => item.sectionType === "weekChart")?.items || [],
-                chart : action.homeData?.find(item => item.sectionId === 'hZC') || {},
+                chart : action.homeData?.find(item => item.sectionId === 'hZC')?.chart || {},
+                rank : action.homeData?.find(item => item.sectionId === 'hZC')?.items || [],
             };
         case actionType.LOADING: 
             return {

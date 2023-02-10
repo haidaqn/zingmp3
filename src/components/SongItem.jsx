@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../store/actions';
 import 'moment/locale/vi';
 
-const SongItems = ({ thumbnail, title, artists, releaseDate, idSong, sm,style,hv}) => {
+const SongItems = ({ thumbnail, title, artists, releaseDate, idSong, sm,styleCss,hv}) => {
 
   const dispatch = useDispatch();
   //
   return (
-    <div className={` flex-auto flex p-[10px] rounded-[6px]  ${sm ? `${style} w-full` : 'w-[30%]'} ${ hv && 'hover:bg-[#2F2739]'}`}>
+    <div className={` flex-auto flex p-[10px] rounded-[6px]  ${sm ? `${styleCss} w-full` : 'w-[30%]'} ${ hv && 'hover:bg-[#2F2739]'}`}>
         <div className='flex gap-4'>
           <img
           onClick={() => {

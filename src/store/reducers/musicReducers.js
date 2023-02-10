@@ -58,7 +58,7 @@ const musicReducer = (state = initState , action) => {
             }
             songs = [action.data, ...songs];
             
-            console.log(songs);
+            // console.log(songs);
 
             return {
                 ...state,

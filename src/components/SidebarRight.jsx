@@ -30,7 +30,7 @@ const SidebarRight = () => {
     isPlaying && setIsRecent(true);
   },[isPlaying]);
 
-  console.log(recentSongs);
+  // console.log(recentSongs);
 
   return (
     <div className='text-xs text-white flex flex-col w-full f-full'>
@@ -53,7 +53,7 @@ const SidebarRight = () => {
           <SongItem thumbnail={currentSongData?.thumbnail} title={currentSongData?.title}
             artists={currentSongData?.artistsNames} idSong={currentSongData?.encodeID}
             sm='1'
-            style = 'bg-[#9B4DE0]'
+            styleCss = 'bg-[#9B4DE0]'
           />
           <div className='py-[15px] px-[8px] flex flex-col text-sm'>
             <span className='text-white font-bold ]'>Tiếp theo</span>

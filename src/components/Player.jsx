@@ -251,7 +251,7 @@ const Player = ({setIsShowSidebarRight}) => {
               onMouseLeave={() => setIsHover(true)}
             >
               <span onClick={() => setVolume(prev => +prev === 0 ? 50 : 0) }>{ +volume >= 50 ? <SlVolume2 size={25}/> : +volume === 0 ? <SlVolumeOff size={25}/> : <SlVolume1 size={25}/> }</span>
-              {!isHover && <input className='w-[130px] bg-white' type="range" min={0} max={100} value={volume} onChange={(e) => setVolume(e.target.value)} /> }    
+              {!isHover && <input className='w-[130px] text-white' type="range" min={0} max={100} value={volume} onChange={(e) => setVolume(e.target.value)} /> }    
               <div className={`w-[130px] h-[5px] bg-[#595460] rounded-l-full rounded-r-full ${isHover ? 'relative' : 'hidden'} `}>
                 <div ref={rightRef} className='absolute top-0 left-0 bottom-0 bg-white rounded-l-full rounded-r-full'></div>
               </div>
